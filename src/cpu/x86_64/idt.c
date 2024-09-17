@@ -6,6 +6,7 @@
 #include "../../driver/video/vga.h"
 #include "../../util/ascii.h"
 #include "port.h"
+#include "../../kernel/memory.h"
 
 static struct {
     uint16_t size; // One less than the size (max entry number, entries start at 0)
@@ -714,11 +715,12 @@ void control_protection_exception_interrupt() {
 int count_interrupts;
 
 void timer_interrupt() {
-    char number[12];
+    char* number = kmalloc(sizeof(char[12]));
     count_interrupts += 1;
     from_int(count_interrupts, number);
     write_string_at(vga3_color(VGA3_GREEN, VGA3_BLACK), "Timer", 15, 17);
     write_string_at(vga3_color(VGA3_WHITE, VGA3_BLACK), number, 30, 17);
+    free(number);
 }
 
 
@@ -727,8 +729,9 @@ void timer_interrupt() {
  */
 
 void unmapped_or_reserved_interrupt(uint64_t interrupt_vector) {
-    char number[12];
+    char* number = kmalloc(sizeof(char[12]));
     from_int((int) interrupt_vector, number);
     write_string_at(vga3_color(VGA3_GREEN, VGA3_BLACK), "Unmapped", 15, 17);
     write_string_at(vga3_color(VGA3_WHITE, VGA3_BLACK), number, 30, 17);
+    free(number);
 }
