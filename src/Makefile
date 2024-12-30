@@ -7,11 +7,21 @@ OBJ = ${C_SOURCES:.c=.o} ${ASM_SOURCES:.asm=.o}
 CFLAGS = -ffreestanding -fno-stack-protector -z execstack -no-pie -fno-pic
 
 ifeq ($(OS),Windows_NT)
-  host_os = windows
-  SHELL = cmd
-  CC = x86_64-elf-gcc
-  GDB = x86_64-elf-gdb
-  LD = x86_64-elf-ld
+  UNAME_S := $(shell uname -s)
+  ifeq ($(UNAME_S),MSYS_NT-10.0-22631)
+  	$(info MSYS2 detected)
+    host_os = linux
+    CC = gcc
+    GDB = gdb
+    LD = ld
+  else
+    $(info Windows detected)
+    host_os = windows
+    SHELL = cmd
+    CC = x86_64-elf-gcc
+    GDB = x86_64-elf-gdb
+    LD = x86_64-elf-ld
+  endif
 else
   UNAME_S := $(shell uname -s)
   ifeq ($(UNAME_S),Linux)
