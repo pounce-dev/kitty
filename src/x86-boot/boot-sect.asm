@@ -208,14 +208,15 @@ jump_to_long_mode:
     mov ecx, 4096
     rep stosd
     mov edi, cr3
-    mov dword [edi], 0x2003
+    mov dword [edi], 0x2007
     add edi, 0x1000
-    mov dword [edi], 0x3003
+    mov dword [edi], 0x3007
     add edi, 0x1000
-    mov dword [edi], 0x4003
+    mov dword [edi], 0x4007
     add edi, 0x1000
-    mov ebx, 0x00000003
+    mov ebx, 0x000000007
     mov ecx, 512
+
 
 map_first_two_MB:
     mov DWORD [edi], ebx
@@ -223,18 +224,20 @@ map_first_two_MB:
     add edi, 8
     loop map_first_two_MB
 
-enable_PAE_paging: ;PAE specifically
-    mov eax, cr4
+enable_PAE_paging:
+    mov eax, cr4 ; CR4 5th bit is PAE
     or eax, 1 << 5
     mov cr4, eax
 
 enable_paging:
-    mov ecx, 0xC0000080
+    mov ecx, 0xC0000080 ; This is the IA32_EFER MSR
     rdmsr
-    or eax, 1 << 8
+    or eax, 1 << 8 ; Enable LME (IA-32e Mode), enabling 4-level paging
     wrmsr
-    mov eax, cr0
+    mov eax, cr0 ; CR0 31st bit is PG (enable paging)
     or eax, 1 << 31
+    ; write protection disable
+    and eax, 0b11111111111111101111111111111111
     mov cr0, eax
 lgdt [GDT.Pointer]
 jmp GDT.Code:kernel_64
@@ -250,6 +253,11 @@ ACCESSED       equ 1 << 0
 GRAN_4K       equ 1 << 7
 SZ_32         equ 1 << 6
 LONG_MODE     equ 1 << 5
+
+; the following code populates the first 512 bytes of the drive
+times 510-($-$$) db 0		; for 510 bytes minus the beginning of file, write 0
+dw 0xAA55			; magix number
+SECTOR_TWO_BEGINS:
 
 GDT: ; 64 bit GDT, taken from https://wiki.osdev.org/Setting_Up_Long_Mode ; CC0 Licensing (Public Domain)
     .Null: equ $ - GDT
@@ -273,9 +281,6 @@ GDT: ; 64 bit GDT, taken from https://wiki.osdev.org/Setting_Up_Long_Mode ; CC0 
         dw $ - GDT - 1
         dq GDT
 
-; the following code populates the first 512 bytes of the drive
-times 510-($-$$) db 0		; for 510 bytes minus the beginning of file, write 0
-dw 0xAA55			; magix number
 LOAD_TEXT:
     db 0xA, 0xD,0xA, 0xD,'   [ ] Default Drive',0xA, 0xD,'   [ ] Floppy Drive',0xA, 0xD,'   [ ] Hard Drive',0xA, 0xD
     db ' _                    ',0xA, 0xD
@@ -287,7 +292,7 @@ LOAD_TEXT:
 jump_to_kernel:
     call 0x8000 ; jump to our kernel :), this probably isn't right
 
-[BITS 64]
+[BITS 64] ; might have to modify this in the future to perform a far return.
 kernel_64:
     cli
     mov ax, GDT.Data
@@ -301,4 +306,4 @@ kernel_64:
 CODE_SEG equ gdt_code - gdt_start
 DATA_SEG equ gdt_data - gdt_start
 
-times 512-($-LOAD_TEXT) db 0
+times 512-($-SECTOR_TWO_BEGINS) db 0
