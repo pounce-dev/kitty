@@ -11,7 +11,7 @@
  *
  * Other defined variables in this file are for use with processor-specific compilation.
  *
- * All other CPU preprocessor definitions (for use in cpu cpu code) should be put in its corresponding header file.
+ * All other CPU preprocessor definitions (for use in cpu code) should be put in its corresponding header file.
  */
 
 #if CPU == 1 // x86_64 Processors
