@@ -11,6 +11,13 @@ char * kmalloc(uint64_t type_size) {
     return address;
 }
 
+char * kzmalloc(uint64_t type_size) {
+    char * address = free_base_address;
+    free_base_address += type_size;
+    return address;
+}
+
+
 char * kamalloc(uint64_t type_size, uint64_t array_size) {
     char * address = free_base_address;
     free_base_address += type_size * array_size;
