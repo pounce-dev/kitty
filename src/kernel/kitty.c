@@ -18,8 +18,8 @@ void kitty() {
 #ifdef Intel_CPU
     write_string(vga3_color(VGA3_CYAN, VGA3_RED),"Welcome to the Kitty Kernel");
     task_state_segment *tss = (task_state_segment*) kmalloc(sizeof (task_state_segment));
-    void* stack_bottom = kzamalloc(sizeof (uint8_t), 8096);
-    void* stack_top = stack_bottom + 8095;
+    void* stack_bottom = kmalloc(8096);
+    void* stack_top = stack_bottom + 8096;
     set_kernel_stack(tss, (uint64_t) stack_top);
     setup_tss(tss);
     init_idt();

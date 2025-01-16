@@ -1,5 +1,7 @@
 [bits 64]
 function:
+    int 0x80
+    ;mov [0x8000], byte 15
     jmp $
 ; returning from this causes a page fault??? what is even happening...
 extern set_kernel_stack

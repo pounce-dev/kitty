@@ -172,7 +172,7 @@ isr_unmapped 124
 isr_unmapped 125
 isr_unmapped 126
 isr_unmapped 127
-isr_unmapped 128
+isr_complete 128, system_call
 isr_unmapped 129
 isr_unmapped 130
 isr_unmapped 131
