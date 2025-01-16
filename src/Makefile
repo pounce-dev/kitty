@@ -94,7 +94,7 @@ endif
 
 debug: os-image.bin kitty.elf # TODO needs work, change it so that a variable is added for break points
 #ifeq ($(host_os),windows)
-	qemu-system-x86_64 -s -S -fda os-image.bin
+	qemu-system-x86_64 -s -S -d int -fda os-image.bin
 #else ifeq ($(host_os),linux)
 #	qemu-system-x86_64 -s -S -fda os-image.bin &
 #endif
