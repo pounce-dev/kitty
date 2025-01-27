@@ -470,9 +470,15 @@ void timer_interrupt() {
     free(number);
 }
 
+int count_syscalls = 0;
 // 128
 void system_call() {
-    write_string_at(vga3_color(VGA3_GREEN, VGA3_BLACK), "System Call", 18, 18);
+    count_syscalls++;
+    char* number = kmalloc(sizeof (char) * 12);
+    decimal_from_int32(count_syscalls, number);
+    write_string_at(vga3_color(VGA3_GREEN, VGA3_BLACK), "System Call", 15, 18);
+    write_string_at(vga3_color(VGA3_WHITE, VGA3_BLACK), number, 37, 18);
+    free(number);
 }
 
 
