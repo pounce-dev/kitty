@@ -7,13 +7,19 @@
 
 #include "stdint.h"
 #include "../../util/list.h"
+#include <cstdint>
 #include <stdint.h>
 
 struct jon_node {
     char* name;
     klist children;
     uint64_t sector_start;
-    uint64_t sector_length;
+    char symlinked;
+};
+
+struct meta_jon {
+    uint64_t next_sector;
+    uint64_t data_stop;
 };
 
 #endif // KITTY_JNS_H
