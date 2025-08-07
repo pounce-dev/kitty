@@ -26,6 +26,11 @@
 #define VGA3_WHITE 0b00001111
 
 /*
+ * Init vga3, necessary for logging capabilities!
+ */
+void vga3_init();
+
+/*
  * Compile-time function for computing the vga colors.
  */
 #define vga3_color(FORE, BACK) ((BACK << 4) + FORE)

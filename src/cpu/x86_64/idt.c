@@ -467,7 +467,7 @@ void timer_interrupt() {
     decimal_from_int32(count_interrupts, number);
     write_string_at(vga3_color(VGA3_GREEN, VGA3_BLACK), "Timer", 15, 17);
     write_string_at(vga3_color(VGA3_WHITE, VGA3_BLACK), number, 30, 17);
-    free(number);
+    kfree(number);
 }
 
 int count_syscalls = 0;
@@ -478,7 +478,7 @@ void system_call() {
     decimal_from_int32(count_syscalls, number);
     write_string_at(vga3_color(VGA3_GREEN, VGA3_BLACK), "System Call", 15, 18);
     write_string_at(vga3_color(VGA3_WHITE, VGA3_BLACK), number, 37, 18);
-    free(number);
+    kfree(number);
 }
 
 
@@ -491,5 +491,5 @@ void unmapped_or_reserved_interrupt(uint64_t interrupt_vector) {
     decimal_from_int32((int) interrupt_vector, number);
     write_string_at(vga3_color(VGA3_GREEN, VGA3_BLACK), "Unmapped", 15, 17);
     write_string_at(vga3_color(VGA3_WHITE, VGA3_BLACK), number, 30, 17);
-    free(number);
+    kfree(number);
 }
