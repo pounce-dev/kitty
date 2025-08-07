@@ -5,6 +5,7 @@
 #ifndef KITTY_SYSCALL_H
 #define KITTY_SYSCALL_H
 
+#include "node.h"
 #include <stdbool.h>
 #include "stdint.h"
 
@@ -13,11 +14,9 @@
  * consistent across all systems
  */
 
-typedef uint64_t node_descriptor;
 typedef uint64_t pointer;
 typedef uint64_t number;
 typedef uint64_t boolean;
-typedef uint64_t node_type;
 
 /*
  * open(pointer path)
