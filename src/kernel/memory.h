@@ -25,5 +25,7 @@
 char * kmalloc(uint64_t type_size);
 char * kamalloc(uint64_t type_size, uint64_t array_size);
 char * kzamalloc(uint64_t type_size, uint64_t array_size);
-void free(char* mem_address);
+void kfree(char* mem_address);
+void* kmemcpy(void* dest, const void* src, uint64_t size);
+void* krealloc(void* old_ptr, uint64_t old_size, uint64_t new_size);
 #endif //KITTY_MEMORY_H
