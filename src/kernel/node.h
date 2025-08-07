@@ -11,7 +11,7 @@
 
 typedef uint64_t node_descriptor;
 typedef uint64_t node_type;
-extern struct klist node_list;
+extern klist_t node_list;
 
 struct node_interface {
     void* open_func;

@@ -1,3 +1,3 @@
 #include "node.h"
 
-struct klist node_list;
+klist_t node_list;

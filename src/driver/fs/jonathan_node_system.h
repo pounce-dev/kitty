@@ -11,7 +11,7 @@
 
 struct jon_node {
     char* name;
-    klist children;
+    klist_t children;
     uint64_t sector_start;
     char symlinked;
 };
