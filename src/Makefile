@@ -115,5 +115,5 @@ ifeq ($(host_os),windows)
 	del /S *.bin *.o *.elf
 else ifeq ($(host_os),linux)
 	rm -rf *.bin *.o *.elf
-	rm -rf kernel/*.o x86-boot/*.bin x86-boot/*.o
+	rm -rf ${OBJ}
 endif
