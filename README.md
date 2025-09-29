@@ -1,5 +1,5 @@
 # kitty
-The kitty kernel, maintained by BYUi students
+The kitty kernel, maintained by BYUI students
 
 ## Building
 
